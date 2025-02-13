@@ -28,7 +28,7 @@ class PostcardController extends Controller
 
         $postcard = Postcard::create($validate);
 
-        return redirect()->route('postcards.show', $postcard);
+        return to_route('postcards.show', $postcard)->banner('Postcard created successfully');
     }
 
     public function show(Postcard $postcard)

@@ -19,10 +19,4 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import PostcardForm from './Components/Form.vue';
-import { usePage } from '@inertiajs/vue3';
-
-const props = defineProps({
-    postcard: Object,
-});
-
 </script>

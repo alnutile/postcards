@@ -23,8 +23,5 @@ Route::middleware([
             ->name('postcards.create');
         Route::post('/', [PostcardController::class, 'store'])
             ->name('postcards.store');
-        Route::get('/{postcard}', [PostcardController::class, 'show'])
-            ->name('postcards.show')
-            ->middleware('signed');
     });
 });
