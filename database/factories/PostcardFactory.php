@@ -26,7 +26,7 @@ class PostcardFactory extends Factory
             'state' => fake()->stateAbbr(),
             'zip_code' => fake()->postcode(),
             'message' => fake()->paragraph(),
-            'filename' => fake()->uuid().'.jpg',
+            'file' => fake()->uuid().'.jpg',
             'user_id' => User::factory(),
         ];
     }

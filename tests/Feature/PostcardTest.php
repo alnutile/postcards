@@ -23,7 +23,7 @@ class PostcardTest extends TestCase
             'state' => 'NY',
             'zip_code' => '10001',
             'message' => 'Hello from NYC!',
-            'filename' => 'test-image.jpg',
+            'file' => 'test-image.jpg',
             'user_id' => $user->id,
         ];
 
@@ -45,7 +45,7 @@ class PostcardTest extends TestCase
             'state' => 'CA',
             'zip_code' => '90001',
             'message' => 'Greetings from LA!',
-            'filename' => 'la-photo.jpg',
+            'file' => 'la-photo.jpg',
             'user_id' => $user->id,
         ];
 
@@ -65,7 +65,7 @@ class PostcardTest extends TestCase
         $this->assertNotNull($postcard->state);
         $this->assertNotNull($postcard->zip_code);
         $this->assertNotNull($postcard->message);
-        $this->assertNotNull($postcard->filename);
+        $this->assertNotNull($postcard->file);
         $this->assertNotNull($postcard->user_id);
     }
 }
