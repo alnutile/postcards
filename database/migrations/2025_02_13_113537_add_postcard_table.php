@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('state');
             $table->string('zip_code');
             $table->text('message');
-            $table->string('filename');
+            $table->string('filename')->nullable();
             $table->foreignIdFor(User::class);
             $table->timestamps();
         });
