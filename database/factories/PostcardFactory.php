@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Postcard;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,7 +26,8 @@ class PostcardFactory extends Factory
             'state' => fake()->stateAbbr(),
             'zip_code' => fake()->postcode(),
             'message' => fake()->paragraph(),
-            'filename' => fake()->uuid() . '.jpg',
+            'filename' => fake()->uuid().'.jpg',
+            'user_id' => User::factory(),
         ];
     }
 }

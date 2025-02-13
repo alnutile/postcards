@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Postcard extends Model
 {
@@ -23,6 +24,7 @@ class Postcard extends Model
         'zip_code',
         'message',
         'filename',
+        'user_id',
     ];
 
     /**
@@ -34,4 +36,9 @@ class Postcard extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

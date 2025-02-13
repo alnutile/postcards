@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Postcard;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,6 +13,8 @@ class PostcardTest extends TestCase
 
     public function test_can_create_postcard(): void
     {
+        $user = User::factory()->create();
+
         $postcard_data = [
             'recipient_name' => 'John Doe',
             'street_1' => '123 Main St',
@@ -21,16 +24,20 @@ class PostcardTest extends TestCase
             'zip_code' => '10001',
             'message' => 'Hello from NYC!',
             'filename' => 'test-image.jpg',
+            'user_id' => $user->id,
         ];
 
         $postcard = Postcard::create($postcard_data);
 
         $this->assertDatabaseHas('postcards', $postcard_data);
         $this->assertEquals('John Doe', $postcard->recipient_name);
+        $this->assertEquals($user->id, $postcard->user_id);
     }
 
     public function test_can_create_postcard_without_street_2(): void
     {
+        $user = User::factory()->create();
+
         $postcard_data = [
             'recipient_name' => 'Jane Doe',
             'street_1' => '456 Oak Ave',
@@ -39,6 +46,7 @@ class PostcardTest extends TestCase
             'zip_code' => '90001',
             'message' => 'Greetings from LA!',
             'filename' => 'la-photo.jpg',
+            'user_id' => $user->id,
         ];
 
         $postcard = Postcard::create($postcard_data);
@@ -58,5 +66,6 @@ class PostcardTest extends TestCase
         $this->assertNotNull($postcard->zip_code);
         $this->assertNotNull($postcard->message);
         $this->assertNotNull($postcard->filename);
+        $this->assertNotNull($postcard->user_id);
     }
 }
