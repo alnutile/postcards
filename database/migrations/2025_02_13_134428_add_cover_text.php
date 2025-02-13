@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('postcards', function (Blueprint $table) {
             $table->string('cover_text')->nullable();
-            //rename filename to file
+            // rename filename to file
             $table->renameColumn('filename', 'file');
         });
     }

@@ -11,7 +11,7 @@ class PostcardController extends Controller
     public function create()
     {
         return inertia('Postcard/Create', [
-            'postcard' => new Postcard(),
+            'postcard' => new Postcard,
         ]);
     }
 
@@ -37,31 +37,36 @@ class PostcardController extends Controller
     public function show(Postcard $postcard)
     {
         return inertia('Postcard/Show', [
-            'postcard' => $postcard
+            'postcard' => $postcard,
         ]);
     }
 
     public function copyLink(Postcard $postcard)
     {
-       //signed url for anonymous users
-       $signedUrl = URL::signedRoute('postcards.shared', $postcard);
-       return response()->json(['url' => $signedUrl]);
+        // signed url for anonymous users
+        $signedUrl = URL::signedRoute('postcards.shared', $postcard);
+
+        return response()->json(['url' => $signedUrl]);
     }
 
     public function shared(Postcard $postcard)
     {
         return inertia('Postcard/Shared', [
-            'postcard' => $postcard
+            'postcard' => $postcard,
         ]);
     }
 
     public function uploadFile(Postcard $postcard, Request $request)
     {
         $validate = $request->validate([
-            'filename' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'cover_text' => 'nullable|string|max:255',
         ]);
 
-        $postcard->file = $validate['filename'];
+        $validate['file']->store('postcards', 'public');
+
+        $postcard->file = $validate['file']->hashName();
+        $postcard->cover_text = $validate['cover_text'];
         $postcard->save();
 
         return back()->banner('File uploaded successfully');

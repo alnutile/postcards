@@ -1,10 +1,8 @@
 <?php
 
 use App\Http\Controllers\PostcardController;
-use App\Models\Postcard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -14,13 +12,12 @@ Route::get('/', function () {
     return to_route('login');
 });
 
-//signed url with that postcards/shared uri
+// signed url with that postcards/shared uri
 Route::get('/postcards/shared/{postcard}', [
     PostcardController::class,
-    'shared'
+    'shared',
 ])->name('postcards.shared')
-->middleware('signed');
-
+    ->middleware('signed');
 
 Route::middleware([
     'auth:sanctum',
@@ -36,7 +33,6 @@ Route::middleware([
             ->name('postcards.show');
         Route::get('/{postcard}/copy-link', [PostcardController::class, 'copyLink'])
             ->name('postcards.copy-link');
-        //upload
         Route::post('/{postcard}/upload-file', [PostcardController::class, 'uploadFile'])
             ->name('postcards.upload-file');
     });

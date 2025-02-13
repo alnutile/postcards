@@ -95,7 +95,12 @@
                         <div class="flex-1 flex items-center justify-center" v-if="!modelValue?.id">Please save your
                             postcard to add a file to it</div>
                         <div class="flex-1 flex items-center justify-center" v-else>
-                            Coming Soon.
+                            <div v-if="modelValue.file">
+                                <img :src="modelValue.file" alt="Postcard" class="w-full h-full object-cover">
+                            </div>
+                            <div v-else>
+                                <div class="flex-1 flex items-center justify-center text-gray-300 text-xl">Upload file to see it here</div>
+                            </div>
                         </div>
                     </template>
                 </div>
