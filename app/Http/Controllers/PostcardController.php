@@ -59,16 +59,21 @@ class PostcardController extends Controller
     public function uploadFile(Postcard $postcard, Request $request)
     {
         $validate = $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'file' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'cover_text' => 'nullable|string|max:255',
         ]);
 
-        $validate['file']->store('postcards', 'public');
+        if ($request->hasFile('file')) {
+            $validate['file']->store('postcards', 'public');
+            $postcard->file = $validate['file']->hashName();
+        }
 
-        $postcard->file = $validate['file']->hashName();
-        $postcard->cover_text = $validate['cover_text'];
+        if ($request->has('cover_text')) {
+            $postcard->cover_text = $validate['cover_text'];
+        }
+
         $postcard->save();
 
-        return back()->banner('File uploaded successfully');
+        return back()->banner('Postcard updated successfully');
     }
 }

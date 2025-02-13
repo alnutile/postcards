@@ -4,11 +4,15 @@
             <div class="space-y-4">
             <!-- Cover Text Input -->
             <div>
-                <InputLabel for="recipient_name" value="Cover Text" />
-                <TextInput id="recipient_name" v-model="form.cover_text"
-                placeholder="OPTIONAL"
-                type="text"
-                class="mt-1 block w-full" required autofocus />
+                <InputLabel for="cover_text" value="Cover Text" />
+                <TextInput
+                    id="cover_text"
+                    v-model="form.cover_text"
+                    placeholder="OPTIONAL"
+                    type="text"
+                    class="mt-1 block w-full"
+                    @input="debouncedSubmit"
+                />
             </div>
 
             <!-- File Upload -->
@@ -45,10 +49,10 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
-import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { debounce } from 'lodash';
 
 const props = defineProps({
     postcard: Object,
@@ -56,7 +60,7 @@ const props = defineProps({
 
 const form = useForm({
     file: null,
-    cover_text: null,
+    cover_text: props.postcard?.cover_text || null,
 });
 
 const fileInput = ref(null);
@@ -72,11 +76,8 @@ const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
         form.file = file;
+        submit();
     }
-
-    console.log("submit");
-
-    submit();
 };
 
 const submit = () => {
@@ -87,5 +88,17 @@ const submit = () => {
         },
     });
 };
+
+const debouncedSubmit = debounce(() => {
+    console.log('Debounced submit triggered', form.cover_text); // Debug log
+    if (form.cover_text !== props.postcard.cover_text) {
+        console.log('Submitting form...'); // Debug log
+        form.post(route('postcards.upload-file', props.postcard), {
+            preserveScroll: true,
+            preserveState: true,
+            only: ['postcard'],
+        });
+    }
+}, 500);
 </script>
 
