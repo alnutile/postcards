@@ -51,12 +51,14 @@
 import { useForm } from '@inertiajs/vue3';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { debounce } from 'lodash';
 
 const props = defineProps({
     postcard: Object,
 });
+
+const emit = defineEmits(['update:postcard']);
 
 const form = useForm({
     file: null,
@@ -100,5 +102,13 @@ const debouncedSubmit = debounce(() => {
         });
     }
 }, 500);
+
+// Watch for changes in cover_text and emit immediately
+watch(() => form.cover_text, (newValue) => {
+    emit('update:postcard', {
+        ...props.postcard,
+        cover_text: newValue
+    });
+}, { immediate: true });
 </script>
 

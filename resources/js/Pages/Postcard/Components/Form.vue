@@ -65,7 +65,10 @@
                         <div class="flex-1 flex items-center justify-center text-gray-300 text-xl">Please save your postcard to add a file to it</div>
                     </div>
                     <div v-else>
-                        <UploadFileAndCoverText :postcard="modelValue" />
+                        <UploadFileAndCoverText
+                            :postcard="modelValue"
+                            @update:postcard="$emit('update:modelValue', $event)"
+                        />
                     </div>
                 </div>
             </div>
